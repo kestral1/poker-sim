@@ -8,7 +8,6 @@ def test_flush():
     assert is_flush.is_flush()
     assert not_flush.is_flush() == False
 
-
 def test_straight():
     hand_1 = Hand(Card("A", "H"), Card("2", "H"), Card("3", "H"))
     hand_2 = Hand(Card("A", "H"), Card("3", "H"), Card("2", "S"))
@@ -23,11 +22,13 @@ def test_straight():
     assert hand_5.is_straight()
     
 def test_replacement():
-    return True
-    random_hand_repr_list = [
-        [c.__repr__() for c in get_random_hand()]
-        for i in range(10)
+    # probabalistic test, might fail randomly
+    SAMPLE_SIZE = 10_000
+    random_hand_str_list = [
+        [str(c) for c in get_random_hand().cards]
+        for i in range(SAMPLE_SIZE)
     ]
 
+    unique_count_hand_list = [len(set(h)) for h in random_hand_str_list]
 
-    assert list(random_hand_repr_list) == [3, 2, 1]
+    assert set(unique_count_hand_list) == set([3, 2, 1])

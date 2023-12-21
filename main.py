@@ -1,16 +1,8 @@
 from random import sample
 
-RANKS = [
-    "A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"
-]
-
-SUITS = [
-    "D", "C", "S", "H"
-]
-
-rank_to_int = {
-    "A": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "T": 10, "J": 11, "Q": 12, "K": 13,
-}
+RANKS = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"]
+SUITS = ["D", "C", "S", "H"]
+RANK_TO_INT = {"A": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "T": 10, "J": 11, "Q": 12, "K": 13,}
 
 class Card:
     def __init__(self, rank, suit):
@@ -33,7 +25,7 @@ class Card:
         return self.rank
 
     def get_rank_int(self):
-        return rank_to_int[self.get_rank()]
+        return RANK_TO_INT[self.get_rank()]
 
 
 CARDS = [
@@ -52,7 +44,7 @@ class Hand:
 
     def get_ranks(self):
         return [c.get_rank() for c in self.cards]
-    
+
     def get_suits(self):
         return [c.get_suit() for c in self.cards]
 
@@ -87,7 +79,7 @@ def get_random_hand() -> Hand:
     return Hand(*card_list)
 
 def main():
-    SAMPLE_SIZE = 100_000_000
+    SAMPLE_SIZE = 100_000
     
     outcomes = {
         "Suited Trips": 0,
@@ -123,11 +115,11 @@ def main():
             outcomes["Three of a kind"] += 1
         elif hand.is_straight():
             outcomes["Straight"] += 1
-        if hand.is_flush():
+        elif hand.is_flush():
             outcomes["Flush"] += 1
         else:
             outcomes["None"] += 1
-
+    assert sum([v for v in outcomes.values()]) == SAMPLE_SIZE
     sample_probabilities = {
         win_type: count/SAMPLE_SIZE
         for win_type, count in outcomes.items()
